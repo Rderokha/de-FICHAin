@@ -16,7 +16,7 @@ export default function Header() {
   const [showSignup, setShowSignup] = useState(false);
   return (
     <>
-    <header className="flex justify-between items-center p-4 bg-white shadow-md">
+    <header className="fixed top-0 left-0 w-full bg-white shadow z-50 flex justify-between items-center p-4 bg-white">
       {/* Logo */}
       <Link href="/" className="flex items-center gap-2">
         <Image src="/logo.svg" alt="Logo" width={0} height={0} className="w-[200px] h-[50px]" priority/>
@@ -48,7 +48,7 @@ export default function Header() {
     </header>
     {/* Login Modal */}
       {showLogin && (
-        <Modal title="Iniciar Sesión" onClose={() => setShowLogin(false)}>
+        <Modal title="Login" onClose={() => setShowLogin(false)}>
           {/* Aquí va tu formulario de login */}
           <LoginForm/>
         </Modal>
@@ -56,7 +56,7 @@ export default function Header() {
 
       {/* Signup Modal */}
       {showSignup && (
-        <Modal title="Crear Cuenta" onClose={() => setShowSignup(false)}>
+        <Modal title="Signup" onClose={() => setShowSignup(false)}>
           {/* Aquí va tu formulario de registro */}
           <SignupForm/>
         </Modal>
