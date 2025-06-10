@@ -10,7 +10,7 @@ export function LoginForm() {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    console.log('Login:', data);
+    console.log('Login data:', data);
     // Aquí puedes conectar con tu sistema de auth o Web3 login
   };
 
@@ -18,25 +18,25 @@ export function LoginForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <input
         type="email"
-        placeholder="Correo"
+        placeholder="Email"
         {...register('email', { required: true })}
         className="w-full border p-2 rounded"
       />
-      {errors.email && <p className="text-red-500 text-sm">Correo requerido</p>}
+      {errors.email && <p className="text-red-500 text-sm">Email is required</p>}
 
       <input
         type="password"
-        placeholder="Contraseña"
+        placeholder="Password"
         {...register('password', { required: true })}
         className="w-full border p-2 rounded"
       />
-      {errors.password && <p className="text-red-500 text-sm">Contraseña requerida</p>}
+      {errors.password && <p className="text-red-500 text-sm">Password is required</p>}
 
       <button
         type="submit"
         className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 cursor-pointer"
       >
-        Iniciar sesión
+        Log In
       </button>
     </form>
   );
@@ -50,7 +50,7 @@ export function SignupForm() {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    console.log('Signup:', data);
+    console.log('Signup data:', data);
     // Aquí puedes registrar al usuario en tu sistema o smart contract
   };
 
@@ -58,33 +58,33 @@ export function SignupForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <input
         type="text"
-        placeholder="Nombre"
+        placeholder="Name"
         {...register('name', { required: true })}
         className="w-full border p-2 rounded"
       />
-      {errors.name && <p className="text-red-500 text-sm">Nombre requerido</p>}
+      {errors.name && <p className="text-red-500 text-sm">Name is required</p>}
 
       <input
         type="email"
-        placeholder="Correo"
+        placeholder="Email"
         {...register('email', { required: true })}
         className="w-full border p-2 rounded"
       />
-      {errors.email && <p className="text-red-500 text-sm">Correo requerido</p>}
+      {errors.email && <p className="text-red-500 text-sm">Email is required</p>}
 
       <input
         type="password"
-        placeholder="Contraseña"
+        placeholder="Password"
         {...register('password', { required: true })}
         className="w-full border p-2 rounded"
       />
-      {errors.password && <p className="text-red-500 text-sm">Contraseña requerida</p>}
+      {errors.password && <p className="text-red-500 text-sm">Password is required</p>}
 
       <button
         type="submit"
         className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700 cursor-pointer"
       >
-        Registrarse
+        Signup
       </button>
     </form>
   );

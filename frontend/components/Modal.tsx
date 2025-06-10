@@ -12,7 +12,7 @@ export default function Modal({ title, children, onClose }: ModalProps) {
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-xs"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/30"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -30,7 +30,7 @@ export default function Modal({ title, children, onClose }: ModalProps) {
           >
             ×
           </button>
-          <h2 className="text-lg font-semibold mb-4">{title}</h2>
+          <h2 className="text-stone-500 font-semibold mb-4 ">{title}</h2>
           {children}
         </motion.div>
       </motion.div>
