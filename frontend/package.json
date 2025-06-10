@@ -12,9 +12,11 @@
     "@reown/appkit": "^1.7.8",
     "@reown/appkit-adapter-wagmi": "^1.7.8",
     "@tanstack/react-query": "^5.80.6",
+    "framer-motion": "^12.16.0",
     "next": "15.3.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.57.0",
     "viem": "^2.31.0",
     "wagmi": "^2.15.6"
   },

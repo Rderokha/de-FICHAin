@@ -4,12 +4,18 @@ import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
+import Modal from '@/components/Modal';
+import { LoginForm, SignupForm } from '@/components/AuthForms';
+
 
 
 export default function Header() {
   // Simulando sesión iniciada (puedes reemplazarlo con lógica real)
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
   return (
+    <>
     <header className="flex justify-between items-center p-4 bg-white shadow-md">
       {/* Logo */}
       <Link href="/" className="flex items-center gap-2">
@@ -26,12 +32,8 @@ export default function Header() {
       <div className="flex items-center gap-3">
         {!isLoggedIn ? (
           <>
-            <Link href="/login" className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-100">
-              Login
-            </Link>
-            <Link href="/signup" className="px-4 py-2 text-sm text-white bg-blue-600 rounded-md hover:bg-blue-700">
-              Signup
-            </Link>
+            <button onClick={() => setShowLogin(true)} className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-100 cursor-pointer">Login</button>
+            <button onClick={() => setShowSignup(true)} className="px-4 py-2 text-sm text-white bg-blue-600 rounded-md hover:bg-blue-700 cursor-pointer">Signup</button>
           </>
         ) : (
           <>
@@ -44,5 +46,21 @@ export default function Header() {
         )}
       </div>
     </header>
+    {/* Login Modal */}
+      {showLogin && (
+        <Modal title="Iniciar Sesión" onClose={() => setShowLogin(false)}>
+          {/* Aquí va tu formulario de login */}
+          <LoginForm/>
+        </Modal>
+      )}
+
+      {/* Signup Modal */}
+      {showSignup && (
+        <Modal title="Crear Cuenta" onClose={() => setShowSignup(false)}>
+          {/* Aquí va tu formulario de registro */}
+          <SignupForm/>
+        </Modal>
+      )}
+    </>
   );
 }
