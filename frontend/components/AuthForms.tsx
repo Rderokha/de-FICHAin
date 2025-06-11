@@ -2,6 +2,9 @@
 
 import { useForm } from 'react-hook-form';
 
+const inputClass = 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition placeholder-gray-400 text-stone-600';
+const errorTextClass = 'text-red-500 text-sm mt-1';
+
 export function LoginForm() {
   const {
     register,
@@ -20,17 +23,17 @@ export function LoginForm() {
         type="email"
         placeholder="Email"
         {...register('email', { required: true })}
-        className="w-full border p-2 rounded"
+        className={inputClass}
       />
-      {errors.email && <p className="text-red-500 text-sm">Email is required</p>}
+      {errors.email && <p className={errorTextClass}>Email is required</p>}
 
       <input
         type="password"
         placeholder="Password"
         {...register('password', { required: true })}
-        className="w-full border p-2 rounded"
+        className={inputClass}
       />
-      {errors.password && <p className="text-red-500 text-sm">Password is required</p>}
+      {errors.password && <p className={errorTextClass}>Password is required</p>}
 
       <button
         type="submit"
@@ -46,6 +49,7 @@ export function SignupForm() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
 
@@ -54,37 +58,54 @@ export function SignupForm() {
     // Aquí puedes registrar al usuario en tu sistema o smart contract
   };
 
+  // Para verificar la contraseña en tiempo real
+  const password = watch('password');
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <input
         type="text"
         placeholder="Name"
         {...register('name', { required: true })}
-        className="w-full border p-2 rounded"
+        className={inputClass}
       />
-      {errors.name && <p className="text-red-500 text-sm">Name is required</p>}
+      {errors.name && <p className={errorTextClass}>Name is required</p>}
 
       <input
         type="email"
         placeholder="Email"
         {...register('email', { required: true })}
-        className="w-full border p-2 rounded"
+        className={inputClass}
       />
-      {errors.email && <p className="text-red-500 text-sm">Email is required</p>}
+      {errors.email && <p className={errorTextClass}>Email is required</p>}
 
       <input
         type="password"
         placeholder="Password"
         {...register('password', { required: true })}
-        className="w-full border p-2 rounded"
+        className={inputClass}
       />
-      {errors.password && <p className="text-red-500 text-sm">Password is required</p>}
+      {errors.password && <p className={errorTextClass}>Password is required</p>}
+
+      <input
+          type="password"
+          placeholder="Repeat password"
+          {...register('confirmPassword', {
+            required: true,
+            validate: (value) =>
+              value === password || 'Passwords do not match',
+          })}
+          className={inputClass}
+        />
+        {errors.confirmPassword && (
+          <p className={errorTextClass}>{errors.confirmPassword.message?.toString()}</p>
+        )}
 
       <button
         type="submit"
         className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700 cursor-pointer"
       >
-        Signup
+        Sign Up
       </button>
     </form>
   );
