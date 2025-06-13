@@ -8,11 +8,21 @@ datasource db {
 }
 
 model Bet {
-  id             String   @id @default(cuid())
+  id             Int     @id @default(autoincrement())
   title          String
   description    String
-  options        String   // JSON.stringify() cuando guardes
+  options        Json     // ✅ Esto te permitirá guardar ["Yes", "No"]
+  creatorAddress String
+  status         String
+  createdAt      DateTime @default(now())
+}
+
+model ProposedBet {
+  id             Int      @id @default(autoincrement())
+  title          String
+  description    String
+  options        Json
   creatorAddress String
   createdAt      DateTime @default(now())
-  status         String
+  status         String   @default("pending")
 }
