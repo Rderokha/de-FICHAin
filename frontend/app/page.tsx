@@ -98,7 +98,7 @@ export default function Home() {
             displayBets.map((bet) => (
               <div
                 key={bet.id}
-                className="bg-white shadow-md rounded-xl p-4 hover:shadow-[0_0_20px_5px_rgba(255,255,0,0.3)] transition-shadow duration-300 flex flex-col justify-between"
+                className="bg-white shadow-md rounded-xl p-4 hover:shadow-[0_0_20px_5px_rgba(255,255,0,0.3)] transition-shadow duration-300 flex flex-col justify-between mx-4 sm:mx-0"
               >
                 <div>
                   <h2 className="text-xl font-semibold mb-2">{bet.title}</h2>
