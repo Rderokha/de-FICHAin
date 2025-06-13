@@ -20,9 +20,9 @@ const ViewBetsButton = () => {
   return (
     <button
       onClick={scrollToBets}
-      className={`${rem.className} cursor-pointer py-4 px-10 rounded-full leading-none font-black text-2xl text-[#FFFFFF] bg-[#000000] transition-shadow duration-300 hover:shadow-[0_0_20px_10px_rgba(255,174,74,0.5)]`}
+      className={`${rem.className} text-left inline-flex pl-5 pr-10 cursor-pointer py-4 px-10 rounded-full leading-none font-black text-2xl text-[#FFFFFF] bg-[#000000] transition-shadow duration-300 hover:shadow-[0_0_20px_10px_rgba(255,174,74,0.5)]`}
     >
-      VER<br/>APUESTAS
+      <img src="/shine.svg" alt="Estrella" className="w-12 h-12"/>VER<br/>APUESTAS
     </button>
   );
 };

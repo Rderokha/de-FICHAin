@@ -94,9 +94,9 @@ function ProposeBetButton() {
     <>
       <button
         onClick={openModal}
-        className={`${rem.className} cursor-pointer py-4 px-10 rounded-full leading-none font-black text-2xl text-[#2F7068] bg-[#FFFFFF] transition-shadow duration-300 hover:shadow-[0_0_20px_10px_rgba(255,174,74,0.5)]`}
+        className={`${rem.className} text-left inline-flex pl-5 pr-10 cursor-pointer py-4  rounded-full leading-none font-black text-2xl text-[#2F7068] bg-[#FFFFFF] transition-shadow duration-300 hover:shadow-[0_0_20px_10px_rgba(255,174,74,0.5)]`}
       >
-        PROPONER<br />APUESTA
+        <img src="/shine.svg" alt="Estrella" className="w-12 h-12"/>PROPONER<br />APUESTA
       </button>
 
       <Dialog open={isOpen} onClose={closeModal} className="fixed z-50 inset-0 overflow-y-auto">
