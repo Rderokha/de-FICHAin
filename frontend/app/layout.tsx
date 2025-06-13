@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import ParticlesBackground from "@/components/ParticlesBackground";
 
 import { headers } from 'next/headers' // added
 import ContextProvider from '@/context'
@@ -28,6 +29,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
+        <ParticlesBackground/>
         <ContextProvider cookies={cookies}>{children}</ContextProvider>
       </body>
     </html>
