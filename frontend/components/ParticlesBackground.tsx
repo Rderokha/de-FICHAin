@@ -15,7 +15,7 @@ const ParticlesBackground = () => {
       id="tsparticles"
       init={particlesInit}
       options={{
-        fullScreen: { enable: true },
+        fullScreen: { enable: false },
         background: { color: "#000000", opacity: 0 },
         particles: {
           number: { value: 120 },
@@ -46,7 +46,15 @@ const ParticlesBackground = () => {
             },
             push: { quantity: 4 },
           },
-        },
+        }
+    }}
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        zIndex: -1, // asegúrate de que el texto tenga mayor z-index
       }}
     />
   );
