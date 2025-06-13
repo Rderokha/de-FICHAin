@@ -1,34 +1,36 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url('/noisy.png');
+  opacity: 0.1; /* ajusta según necesidad */
+  z-index: 0;
+  pointer-events: none;
 }
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #ffffff;
-    --foreground: #171717;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(to bottom, #04373B, #161D1D); /* verde oscuro a negro */
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* opcional: mantiene el fondo fijo al hacer scroll */
+  background-size: cover; /* asegura que cubra todo */
 }
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
-
 .animate-blink {
   animation: blink 1s step-start infinite;
+}
+
+@layer utilities {
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 }

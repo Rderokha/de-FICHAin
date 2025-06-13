@@ -5,9 +5,11 @@ import { useEffect, useState } from 'react';
 type Props = {
   text: string;
   speed?: number;
+  className?: string;
+  showCursor?: boolean;
 };
 
-export default function Typewriter({ text, speed = 50 }: Props) {
+export default function Typewriter({ text, speed = 50, className = '', showCursor = true}: Props) {
   const [displayedText, setDisplayedText] = useState('');
   const [index, setIndex] = useState(0);
 
@@ -23,9 +25,9 @@ export default function Typewriter({ text, speed = 50 }: Props) {
   }, [index, text, speed]);
 
   return (
-    <span className="whitespace-pre text-5xl font-mono text-gray-800">
+    <span className={`${className}`}>
       {displayedText}
-      <span className="animate-blink">|</span>
+      {showCursor && <span className="animate-blink">|</span>}
     </span>
   );
 }
