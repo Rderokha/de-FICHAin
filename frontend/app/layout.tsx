@@ -13,7 +13,7 @@ const rem = REM({
 });
 
 export const metadata: Metadata = {
-  title: 'AppKit Example App',
+  title: 'Inicio | de·FICHAin',
   description: 'Powered by Reown'
 }
 
