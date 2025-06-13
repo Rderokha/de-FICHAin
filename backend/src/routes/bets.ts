@@ -6,7 +6,7 @@ import { Prisma } from "@prisma/client";
 const router = express.Router();
 
 router.post("/create", async (req, res) => {
-  const { message, signature, title, description, options } = req.body;
+  const { message, signature, title, description, category, options } = req.body;
 
   const address = await verifySIWE(message, signature);
   if (!address) return res.status(401).json({ error: "Unauthorized" });
@@ -20,6 +20,7 @@ router.post("/create", async (req, res) => {
       title,
       description,
       options,
+      category,
       creatorAddress: address,
       status: "open",
     },
@@ -81,6 +82,7 @@ router.get("/accept/:id", async (req, res) => {
         title: proposedBet.title,
         description: proposedBet.description,
         options: proposedBet.options as Prisma.InputJsonValue,
+        category: proposedBet.category,
         creatorAddress: proposedBet.creatorAddress,
         status: "open",
       },
@@ -113,7 +115,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 router.post("/propose", async (req, res) => {
-  const { message, signature, title, description, options } = req.body;
+  const { message, signature, title, description, category, options } = req.body;
 
   const address = await verifySIWE(message, signature);
   if (!address) return res.status(401).json({ error: "Unauthorized" });
@@ -127,6 +129,7 @@ router.post("/propose", async (req, res) => {
       title,
       description,
       options,
+      category,
       creatorAddress: address,
     },
   });

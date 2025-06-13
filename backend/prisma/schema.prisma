@@ -8,10 +8,11 @@ datasource db {
 }
 
 model Bet {
-  id             Int     @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   title          String
-  description    String
-  options        Json     // ✅ Esto te permitirá guardar ["Yes", "No"]
+  description    String?            // Ahora es opcional (puede ser null)
+  category       String             // Nueva propiedad para categoría ("social", "política", "economía")
+  options        Json               // Guarda ["Yes", "No"] o más opciones
   creatorAddress String
   status         String
   createdAt      DateTime @default(now())
@@ -20,7 +21,8 @@ model Bet {
 model ProposedBet {
   id             Int      @id @default(autoincrement())
   title          String
-  description    String
+  description    String?            // Opcional para más flexibilidad
+  category       String             // Igual que en Bet
   options        Json
   creatorAddress String
   createdAt      DateTime @default(now())
