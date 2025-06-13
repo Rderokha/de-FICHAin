@@ -5,7 +5,9 @@ import { SiweMessage } from 'siwe';
 import { useCallback, useState, useMemo } from 'react';
 import { proposeBet } from '../utils/api';
 import { REM } from 'next/font/google';
-import { Dialog } from '@headlessui/react';
+import { Dialog, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
+
 
 const rem = REM({
   subsets: ['latin'],
@@ -99,109 +101,119 @@ function ProposeBetButton() {
         <img src="/shine.svg" alt="Estrella" className="w-12 h-12"/>PROPONER<br />APUESTA
       </button>
 
-      <Dialog open={isOpen} onClose={closeModal} className="fixed z-50 inset-0 overflow-y-auto">
-        <div className="flex items-center justify-center min-h-screen bg-black bg-opacity-40 px-4">
-          <Dialog.Panel className="bg-white rounded-xl shadow-xl w-full max-w-2xl p-6 space-y-6">
-            <Dialog.Title className="text-xl font-bold">Proponer Apuesta</Dialog.Title>
+      <Transition show={isOpen} as={Fragment}>
+        <Dialog onClose={closeModal} className="fixed z-50 inset-0 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen px-4">
+            {/* Fondo opaco animado */}
+            <Transition.Child
+              as={Fragment}
+              enter="transition-opacity duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="transition-opacity duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0  backdrop-blur-sm" />
+            </Transition.Child>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Formulario */}
-              <div className="space-y-3">
-                <label className="block">
-                  <span className="text-sm font-medium">Título</span>
-                  <input
-                    placeholder="¿Qué sucederá con...?"
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    className={`w-full mt-1 p-2 border rounded-md`}
-                  />
-                </label>
+            {/* Modal panel animado */}
+            <Transition.Child
+              as={Fragment}
+              enter="transition-all duration-300 ease-out"
+              enterFrom="opacity-0 scale-95 translate-y-4"
+              enterTo="opacity-100 scale-100 translate-y-0"
+              leave="transition-all duration-200 ease-in"
+              leaveFrom="opacity-100 scale-100 translate-y-0"
+              leaveTo="opacity-0 scale-95 translate-y-4"
+            >
+              <Dialog.Panel className="bg-white rounded-xl shadow-xl w-full max-w-2xl p-6 z-10">
+                <Dialog.Title className="text-xl font-bold">Proponer Apuesta</Dialog.Title>
 
-                <label className="block">
-                  <span className="text-sm font-medium">Descripción</span>
-                  <textarea
-                    placeholder="Agrega más contexto, fechas, condiciones, etc."
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    className="w-full mt-1 p-2 border rounded-md"
-                  />
-                </label>
+                    <div className="">
+                      {/* Formulario */}
+                      <div className="">
+                        <label className="block">
+                          <span className="text-sm font-medium">Título</span>
+                          <input
+                            placeholder="¿Qué sucederá con...?"
+                            type="text"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            className={`w-full mt-1 p-2 border rounded-md`}
+                          />
+                        </label>
 
-                <label className="block">
-                  <span className="text-sm font-medium">Categoría</span>
-                  <select
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="w-full mt-1 p-2 border rounded-md"
-                  >
-                    <option value="social">Social</option>
-                    <option value="política">Política</option>
-                    <option value="economía">Economía</option>
-                  </select>
-                </label>
+                        <label className="block">
+                          <span className="text-sm font-medium">Descripción</span>
+                          <textarea
+                            placeholder="Agrega más contexto, fechas, condiciones, etc."
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            className="w-full mt-1 p-2 border rounded-md"
+                          />
+                        </label>
 
-                <div>
-                  <span className="text-sm font-medium">Opciones</span>
-                  {options.map((opt, idx) => (
-                    <input
-                      key={idx}
-                      type="text"
-                      value={opt}
-                      onChange={(e) => handleOptionChange(idx, e.target.value)}
-                      className={`w-full mt-1 mb-1 p-2 border rounded-md`}
-                      placeholder={`Opción ${idx + 1}`}
-                    />
-                  ))}
-                  <button
-                    onClick={addOptionField}
-                    type="button"
-                    className="text-sm text-blue-600 hover:underline mt-1"
-                  >
-                    + Añadir opción
-                  </button>
-                </div>
-              </div>
+                        <label className="block">
+                          <span className="text-sm font-medium">Categoría</span>
+                          <select
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                            className="w-full mt-1 p-2 border rounded-md"
+                          >
+                            <option value="social">Social</option>
+                            <option value="política">Política</option>
+                            <option value="economía">Economía</option>
+                          </select>
+                        </label>
 
-              {/* Vista previa */}
-              <div className="border rounded-lg p-4 bg-gray-50 shadow-inner">
-                <h3 className="font-semibold text-lg mb-2">Vista previa</h3>
-                <p><strong>Título:</strong> {title || 'Sin título'}</p>
-                <p><strong>Descripción:</strong> {description || 'Sin descripción'}</p>
-                <p><strong>Categoría:</strong> {category}</p>
-                <div className="mt-2">
-                  <strong>Opciones:</strong>
-                  <ul className="list-disc list-inside text-sm mt-1">
-                    {validOptions.map((opt, idx) => (
-                      <li key={idx}>{opt}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
+                        <div>
+                          <span className="text-sm font-medium">Opciones</span>
+                          {options.map((opt, idx) => (
+                            <input
+                              key={idx}
+                              type="text"
+                              value={opt}
+                              onChange={(e) => handleOptionChange(idx, e.target.value)}
+                              className={`w-full mt-1 mb-1 p-2 border rounded-md`}
+                              placeholder={`Opción ${idx + 1}`}
+                            />
+                          ))}
+                          <button
+                            onClick={addOptionField}
+                            type="button"
+                            className="text-sm text-blue-600 hover:underline mt-1"
+                          >
+                            + Añadir opción
+                          </button>
+                        </div>
+                      </div>
+                    </div>
 
-            <div className="flex justify-end space-x-3 pt-4">
-              <button
-                onClick={closeModal}
-                className="px-4 py-2 text-sm bg-gray-200 rounded-md cursor-pointer"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={handlePropose}
-                disabled={!isFormValid}
-                className={`px-4 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer ${
-                  isFormValid
-                    ? 'bg-yellow-400 hover:bg-yellow-500'
-                    : 'bg-yellow-200 cursor-not-allowed'
-                }`}
-              >
-                Enviar propuesta
-              </button>
-            </div>
-          </Dialog.Panel>
-        </div>
-      </Dialog>
+                    <div className="flex justify-end space-x-3 pt-4">
+                      <button
+                        onClick={closeModal}
+                        className="px-4 py-2 text-sm bg-red-500 hover:bg-red-600 text-white rounded-md cursor-pointer"
+                      >
+                        Cancelar
+                      </button>
+                      <button
+                        onClick={handlePropose}
+                        disabled={!isFormValid}
+                        className={`px-4 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer ${
+                          isFormValid
+                            ? 'bg-blue-500 hover:bg-blue-600 text-white'
+                            : 'bg-gray-300 cursor-not-allowed'
+                        }`}
+                      >
+                        Enviar propuesta
+                      </button>
+                    </div>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </Dialog>
+      </Transition>
     </>
   );
 }
