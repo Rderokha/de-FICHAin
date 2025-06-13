@@ -3,6 +3,7 @@ export async function proposeBet(data: {
   signature: string;
   title: string;
   description: string;
+  category: string;
   options: string[];
 }) {
   const res = await fetch("http://localhost:4000/api/bets/propose", {
