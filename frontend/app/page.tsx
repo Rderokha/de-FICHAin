@@ -2,6 +2,7 @@
 import Header from '@/components/Header';
 import Typewriter from '@/components/Typewriter';
 import ProposeBetButton from '@/components/ProposeBetButton'
+import ViewBetsButton from '@/components/ViewBetsButton';
 import { REM } from 'next/font/google';
 import { useEffect, useState } from "react";
 import { fetchBets } from "@/utils/api";
@@ -47,12 +48,13 @@ export default function Home() {
       </div>
       <section>
         <ProposeBetButton/>
+        <ViewBetsButton/>
       </section>
       <section>
         <h2 className="text-2xl font-semibold mb-4">Available Bets</h2>
         {loading && <p>Loading...</p>}
         {!loading && bets.length === 0 && <p>No bets found.</p>}
-        <ul className="space-y-4">
+        <ul id="bets-list" className="space-y-4">
           {bets.map((bet) => (
             <li key={bet.id} className="border p-4 rounded-lg shadow-sm">
               <h3 className="text-xl font-semibold">{bet.title}</h3>
