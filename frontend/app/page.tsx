@@ -17,6 +17,7 @@ type Bet = {
   id: number;
   title: string;
   description: string | null;
+  category: string;
   options: string[];
   status: string;
   createdAt: string;
@@ -26,6 +27,8 @@ export default function Home() {
   const [bets, setBets] = useState<Bet[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("todas");
+  const [fade, setFade] = useState(false);
+  const [displayBets, setDisplayBets] = useState<Bet[]>([]);
 
   const filteredBets = selectedCategory === "todas"
     ? bets
@@ -35,6 +38,7 @@ export default function Home() {
     try {
       const data = await fetchBets();
       setBets(data);
+      setDisplayBets(data); // mostrar inicialmente todas las apuestas
     } catch (err) {
       console.error(err);
     } finally {
@@ -45,6 +49,17 @@ export default function Home() {
   useEffect(() => {
     loadBets();
   }, []);
+
+  useEffect(() => {
+    setFade(true); // fade out
+    const timeout = setTimeout(() => {
+      setDisplayBets(filteredBets);
+      setFade(false); // fade in
+    }, 300); // tiempo igual que la duración CSS
+
+    return () => clearTimeout(timeout);
+  }, [selectedCategory, bets]);
+
   return (
     <main>
       <Header/>
@@ -74,13 +89,13 @@ export default function Home() {
         </div>
       </section>
       <div className="max-w-7xl mx-auto">
-        <section id="bets-list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-10 pb-10">
+        <section id="bets-list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-10 pb-10 transition-opacity duration-300" style={{ opacity: fade ? 0 : 1 }}>
           {loading ? (
             <p className="text-center col-span-full">Cargando apuestas...</p>
           ) : bets.length === 0 ? (
             <p className="text-center col-span-full">No hay apuestas disponibles.</p>
           ) : (
-            filteredBets.map((bet) => (
+            displayBets.map((bet) => (
               <div
                 key={bet.id}
                 className="bg-white shadow-md rounded-xl p-4 hover:shadow-[0_0_20px_5px_rgba(255,255,0,0.3)] transition-shadow duration-300 flex flex-col justify-between"
