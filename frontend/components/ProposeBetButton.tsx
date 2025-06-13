@@ -110,18 +110,18 @@ function ProposeBetButton() {
                 <label className="block">
                   <span className="text-sm font-medium">Título</span>
                   <input
+                    placeholder="¿Qué sucederá con...?"
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className={`w-full mt-1 p-2 border rounded-md ${
-                      title.trim() === '' ? 'border-red-400' : ''
-                    }`}
+                    className={`w-full mt-1 p-2 border rounded-md`}
                   />
                 </label>
 
                 <label className="block">
                   <span className="text-sm font-medium">Descripción</span>
                   <textarea
+                    placeholder="Agrega más contexto, fechas, condiciones, etc."
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     className="w-full mt-1 p-2 border rounded-md"
@@ -149,9 +149,7 @@ function ProposeBetButton() {
                       type="text"
                       value={opt}
                       onChange={(e) => handleOptionChange(idx, e.target.value)}
-                      className={`w-full mt-1 mb-1 p-2 border rounded-md ${
-                        opt.trim() === '' ? 'border-red-400' : ''
-                      }`}
+                      className={`w-full mt-1 mb-1 p-2 border rounded-md`}
                       placeholder={`Opción ${idx + 1}`}
                     />
                   ))}
@@ -185,14 +183,14 @@ function ProposeBetButton() {
             <div className="flex justify-end space-x-3 pt-4">
               <button
                 onClick={closeModal}
-                className="px-4 py-2 text-sm bg-gray-200 rounded-md"
+                className="px-4 py-2 text-sm bg-gray-200 rounded-md cursor-pointer"
               >
                 Cancelar
               </button>
               <button
                 onClick={handlePropose}
                 disabled={!isFormValid}
-                className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                className={`px-4 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer ${
                   isFormValid
                     ? 'bg-yellow-400 hover:bg-yellow-500'
                     : 'bg-yellow-200 cursor-not-allowed'

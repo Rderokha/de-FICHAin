@@ -64,7 +64,7 @@ export default function Home() {
     <main>
       <Header/>
       <div className='pt-35 mx-auto w-fit text-center'>
-        <span className={`${rem.className} font-black text-7xl text-white opacity-0 animate-[fadeIn_1.5s_ease-in_forwards]`}>APUESTA, PROPONE, DECIDE</span><br/>
+        <span className={`${rem.className} inline-flex font-black text-7xl text-white opacity-0 animate-[fadeIn_1.5s_ease-in_forwards]`}><img src="/shine.svg" alt="Estrella" className="w-20 h-20"/> APUESTA, PROPONE, DECIDE <img src="/shine.svg" alt="Estrella" className="w-20 h-20"/></span><br/>
         <Typewriter className={`${rem.className} font-semibold text-4xl text-[#05D7B2] w-fit mx-auto opacity-0 animate-[fadeIn_2s_ease-in_forwards]`} text="LA CASA DE APUESTAS DEL FUTURO, EN TU REGIÓN." speed={60}/>
       </div>
       <section className='flex space-x-6 mx-auto w-fit text-center pt-16'>
