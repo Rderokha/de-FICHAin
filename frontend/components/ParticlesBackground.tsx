@@ -40,8 +40,8 @@ const ParticlesBackground = () => {
           },
           modes: {
             repulse: {
-              distance: 20,   // distancia de repulsión (ajustable)
-              duration: 0.2,  // cuánto dura el efecto
+              distance: 25,   // distancia de repulsión (ajustable)
+              duration: 2,  // cuánto dura el efecto
               speed: 0.1,       // qué tan rápido se alejan (opcional)
             },
             push: { quantity: 4 },
