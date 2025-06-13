@@ -13,7 +13,7 @@ export default function Header() {
       </Link>
       {/* Botón wallet*/}
       <div className="flex items-center gap-3 pr-4">
-        <appkit-button />
+        <appkit-button label='Conecta tu Wallet' loadingLabel='Conectando'/>
       </div>
     </header>
     </>
