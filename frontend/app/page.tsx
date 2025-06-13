@@ -5,6 +5,7 @@ import ProposeBetButton from '@/components/ProposeBetButton'
 import ViewBetsButton from '@/components/ViewBetsButton';
 import { useEffect, useState } from "react";
 import { fetchBets } from "@/utils/api";
+import Footer from '@/components/Footer';
 
 
 import { REM } from 'next/font/google';
@@ -124,6 +125,7 @@ export default function Home() {
           )}
         </section>
       </div>
+      <Footer/>
     </main>
   );
 }
