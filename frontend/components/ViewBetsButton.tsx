@@ -1,6 +1,11 @@
 'use client';
 
 import React from 'react';
+import { REM } from 'next/font/google';
+const rem = REM({
+  subsets: ['latin'],
+  weight: ['400', '600', '700', '900'],
+});
 
 const ViewBetsButton = () => {
   const scrollToBets = () => {
@@ -13,9 +18,9 @@ const ViewBetsButton = () => {
   return (
     <button
       onClick={scrollToBets}
-      className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300"
+      className={`${rem.className} cursor-pointer py-4 px-10 rounded-full leading-none font-black text-2xl text-[#FFFFFF] bg-[#000000] transition-shadow duration-300 hover:shadow-[0_0_20px_10px_rgba(255,174,74,0.5)]`}
     >
-      Ver apuestas
+      VER<br/>APUESTAS
     </button>
   );
 };

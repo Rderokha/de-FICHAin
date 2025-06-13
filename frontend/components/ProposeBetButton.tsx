@@ -5,6 +5,11 @@ import { SiweMessage } from "siwe";
 import { useCallback } from "react";
 import { proposeBet } from "../utils/api";
 
+import { REM } from 'next/font/google';
+const rem = REM({
+  subsets: ['latin'],
+  weight: ['400', '600', '700', '900'],
+});
 
 function ProposeBetButton() {
   const { address } = useAccount();
@@ -55,9 +60,9 @@ function ProposeBetButton() {
   return (
     <button
       onClick={handleProposeBet}
-      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+      className={`${rem.className} cursor-pointer py-4 px-10 rounded-full leading-none font-black text-2xl text-[#2F7068] bg-[#FFFFFF] transition-shadow duration-300 hover:shadow-[0_0_20px_10px_rgba(255,174,74,0.5)]`}
     >
-      Proponer apuesta
+      PROPONER<br/>APUESTA
     </button>
   );
 }
