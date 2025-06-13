@@ -9,11 +9,13 @@ const rem = REM({
 
 const ViewBetsButton = () => {
   const scrollToBets = () => {
-    const betsSection = document.getElementById('bets-list');
-    if (betsSection) {
-      betsSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const betsSection = document.getElementById('bets-list');
+  if (betsSection) {
+    const yOffset = -80; // altura de h-20 en px (5rem = 80px)
+    const y = betsSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+};
 
   return (
     <button

@@ -22,7 +22,7 @@ router.post("/create", async (req, res) => {
       options,
       category,
       creatorAddress: address,
-      status: "open",
+      status: "OPEN",
     },
   });
 
@@ -84,7 +84,7 @@ router.get("/accept/:id", async (req, res) => {
         options: proposedBet.options as Prisma.InputJsonValue,
         category: proposedBet.category,
         creatorAddress: proposedBet.creatorAddress,
-        status: "open",
+        status: "OPEN",
       },
     });
 

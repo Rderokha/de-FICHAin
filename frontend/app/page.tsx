@@ -25,6 +25,11 @@ type Bet = {
 export default function Home() {
   const [bets, setBets] = useState<Bet[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState("todas");
+
+  const filteredBets = selectedCategory === "todas"
+    ? bets
+    : bets.filter((bet) => bet.category === selectedCategory);
 
   const loadBets = async () => {
     try {
@@ -47,18 +52,35 @@ export default function Home() {
         <span className={`${rem.className} font-black text-7xl text-white opacity-0 animate-[fadeIn_1.5s_ease-in_forwards]`}>APUESTA, PROPONE, DECIDE</span><br/>
         <Typewriter className={`${rem.className} font-semibold text-4xl text-[#05D7B2] w-fit mx-auto opacity-0 animate-[fadeIn_2s_ease-in_forwards]`} text="LA CASA DE APUESTAS DEL FUTURO, EN TU REGIÓN." speed={60}/>
       </div>
-      <section className='flex space-x-4 mx-auto w-fit text-center pt-8'>
+      <section className='flex space-x-6 mx-auto w-fit text-center pt-16'>
         <ProposeBetButton/>
         <ViewBetsButton/>
       </section>
+      <section className='w-fit pt-16 mx-auto'>
+        <div className="flex flex-wrap gap-2 mb-6 bg-[#087D68] w-fit rounded-full cursor-pointer px-1 py-1">
+          {["todas", "social", "economía", "política"].map((category) => (
+            <button
+              key={category}
+              onClick={() => setSelectedCategory(category)}
+              className={`${rem.className} px-4 py-2 rounded-full transition-all text-3x1 font-semibold cursor-pointer ${
+                selectedCategory === category
+                  ? "bg-white text-[#087D68]"
+                  : "text-white"
+              }`}
+            >
+              {category.toUpperCase()}
+            </button>
+          ))}
+        </div>
+      </section>
       <div className="max-w-7xl mx-auto">
-        <section id="bets-list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-10">
+        <section id="bets-list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-10 pb-10">
           {loading ? (
             <p className="text-center col-span-full">Cargando apuestas...</p>
           ) : bets.length === 0 ? (
             <p className="text-center col-span-full">No hay apuestas disponibles.</p>
           ) : (
-            bets.map((bet) => (
+            filteredBets.map((bet) => (
               <div
                 key={bet.id}
                 className="bg-white shadow-md rounded-xl p-4 hover:shadow-[0_0_20px_5px_rgba(255,255,0,0.3)] transition-shadow duration-300 flex flex-col justify-between"
@@ -77,7 +99,7 @@ export default function Home() {
                     ))}
                   </ul>
                 </div>
-                {bet.status === 'open' && (
+                {bet.status === 'OPEN' && (
                   <button className="mt-auto bg-yellow-400 text-black font-semibold py-2 px-4 rounded-lg hover:bg-yellow-500 transition-colors duration-200 cursor-pointer">
                     Apostar
                   </button>
