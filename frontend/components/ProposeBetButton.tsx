@@ -2,12 +2,12 @@
 
 import { useAccount, useSignMessage } from 'wagmi';
 import { SiweMessage } from 'siwe';
-import { useCallback, useState, useMemo } from 'react';
+import { useCallback, useState, useMemo, useEffect, useRef } from 'react';
 import { proposeBet } from '../utils/api';
 import { REM } from 'next/font/google';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
-
+import { div } from 'framer-motion/client';
 
 const rem = REM({
   subsets: ['latin'],
@@ -23,8 +23,15 @@ function ProposeBetButton() {
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('social');
   const [options, setOptions] = useState(['', '']);
+  const [isConnectWalletOpen, setIsConnectWalletOpen] = useState(false);
 
-  const openModal = () => setIsOpen(true);
+  const openModal = () => {
+    if (!address) {
+      setIsConnectWalletOpen(true);
+      return;
+    }
+    setIsOpen(true);
+  };
   const closeModal = () => setIsOpen(false);
 
   const handleOptionChange = (index: number, value: string) => {
@@ -52,6 +59,7 @@ function ProposeBetButton() {
 
   const handlePropose = useCallback(async () => {
     if (!isFormValid || !address) {
+      console.log("Here");
       return;
     }
 
@@ -92,6 +100,15 @@ function ProposeBetButton() {
     }
   }, [address, signMessageAsync, isFormValid, title, description, category, validOptions]);
 
+  const connectButtonRef = useRef<any>(null);
+
+  const [showTakeMeThere, setShowTakeMeThere] = useState(false);
+  useEffect(() => {
+    if (address && isConnectWalletOpen) {
+      // Cuando se conecta la wallet, muestra el botón "Llévame ahí"
+      setShowTakeMeThere(true);
+    }
+  }, [address, isConnectWalletOpen]);
   return (
     <>
       <button
@@ -210,6 +227,63 @@ function ProposeBetButton() {
                       </button>
                     </div>
               </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </Dialog>
+      </Transition>
+      <Transition show={isConnectWalletOpen} as={Fragment}>
+        <Dialog onClose={() => setIsConnectWalletOpen(false)} className="fixed z-50 inset-0 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen px-4">
+            <Transition.Child
+              as={Fragment}
+              enter="transition-opacity duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="transition-opacity duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 backdrop-blur-sm" />
+            </Transition.Child>
+
+            <Transition.Child
+              as={Fragment}
+              enter="transition-all duration-300 ease-out"
+              enterFrom="opacity-0 scale-95 translate-y-4"
+              enterTo="opacity-100 scale-100 translate-y-0"
+              leave="transition-all duration-200 ease-in"
+              leaveFrom="opacity-100 scale-100 translate-y-0"
+              leaveTo="opacity-0 scale-95 translate-y-4"
+            >
+              <Dialog.Panel className="bg-white rounded-xl shadow-xl w-full max-w-md p-6 z-10 text-center">
+                <Dialog.Title className="text-xl font-bold mb-2">
+                  {showTakeMeThere ? '¡Wallet conectada!' : 'Conecta tu billetera'}
+                </Dialog.Title> 
+
+                <p className="text-sm mb-4">
+                  {showTakeMeThere
+                    ? '¡Perfecto! Ya estás conectado. Puedes continuar y proponer tu apuesta.'
+                    : 'Necesitas conectar tu wallet para proponer una apuesta.'}
+                </p>
+
+                {!showTakeMeThere ? (
+                  <div className='flex justify-center'>
+                    <appkit-button label="Conecta tu Wallet" loadingLabel="Conectando" />
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setIsConnectWalletOpen(false);
+                      setIsOpen(true);
+                      setShowTakeMeThere(false); // resetea estado
+                    }}
+                    className="mt-4 px-4 py-2 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded-md cursor-pointer"
+                  >
+                    Llévame ahí
+                  </button>
+                )}
+              </Dialog.Panel>
+
             </Transition.Child>
           </div>
         </Dialog>
