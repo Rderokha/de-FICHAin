@@ -6,7 +6,7 @@ export async function proposeBet(data: {
   category: string;
   options: string[];
 }) {
-  const res = await fetch("https://de-fichain-production.up.railway.app/api/bets/propose", {
+  const res = await fetch("http://13.220.95.18:4000/api/bets/propose", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -23,7 +23,7 @@ export async function createBet(betData: {
   description?: string;
   options: string[];
 }) {
-  const response = await fetch("https://de-fichain-production.up.railway.app/api/bets/create", {
+  const response = await fetch("http://13.220.95.18:4000/api/bets/create", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -39,7 +39,7 @@ export async function createBet(betData: {
   return response.json();
 }
 export async function fetchBets() {
-  const response = await fetch("https://de-fichain-production.up.railway.app/api/bets/accepted");
+  const response = await fetch("http://13.220.95.18:4000/api/bets/accepted");
   if (!response.ok) throw new Error("Failed to fetch bets");
   return response.json();
 }
