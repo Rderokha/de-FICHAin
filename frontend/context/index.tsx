@@ -18,7 +18,7 @@ if (!projectId) {
 const metadata = {
   name: 'de-fichain',
   description: 'de-fichain frontend',
-  url: 'https://appkitexampleapp.com', // origin must match your domain & subdomain
+  url: 'https://de-fichain.vercel.app', // origin must match your domain & subdomain
   icons: ['https://avatars.githubusercontent.com/u/179229932']
 }
 
