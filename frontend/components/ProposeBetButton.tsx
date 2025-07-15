@@ -7,7 +7,7 @@ import { proposeBet } from '../utils/api';
 import { REM } from 'next/font/google';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
-import { div } from 'framer-motion/client';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const rem = REM({
   subsets: ['latin'],
@@ -24,6 +24,7 @@ function ProposeBetButton() {
   const [category, setCategory] = useState('social');
   const [options, setOptions] = useState(['', '']);
   const [isConnectWalletOpen, setIsConnectWalletOpen] = useState(false);
+  const [showRequirementsWarning, setShowRequirementsWarning] = useState(false);
 
   const openModal = () => {
     if (!address) {
@@ -44,6 +45,10 @@ function ProposeBetButton() {
     setOptions([...options, '']);
   };
 
+  const removeOptionField = (index: number) => {
+    const updated = options.filter((_, idx) => idx !== index);
+    setOptions(updated);
+  };
   const validOptions = useMemo(
     () => options.filter((opt) => opt.trim() !== ''),
     [options]
@@ -59,10 +64,11 @@ function ProposeBetButton() {
 
   const handlePropose = useCallback(async () => {
     if (!isFormValid || !address) {
-      console.log("Here");
+      console.log("HELLO");
+      setShowRequirementsWarning(true);
       return;
     }
-
+    setShowRequirementsWarning(false);
     const nonce = Math.random().toString(36).substring(2, 10);
     const siweMessage = new SiweMessage({
       domain: window.location.host,
@@ -99,6 +105,12 @@ function ProposeBetButton() {
       alert('Error al proponer apuesta: ' + (err as Error).message);
     }
   }, [address, signMessageAsync, isFormValid, title, description, category, validOptions]);
+
+  useEffect(() => {
+    if (isFormValid) {
+      setShowRequirementsWarning(false);
+    }
+  }, [isFormValid]);
 
   const connectButtonRef = useRef<any>(null);
 
@@ -144,7 +156,7 @@ function ProposeBetButton() {
               leaveFrom="opacity-100 scale-100 translate-y-0"
               leaveTo="opacity-0 scale-95 translate-y-4"
             >
-              <Dialog.Panel className="bg-white rounded-xl shadow-xl w-full max-w-2xl p-6 z-10">
+              <Dialog.Panel className="bg-white rounded-xl shadow-xl w-full max-w-2xl p-6 z-10" as={motion.div} layout>
                 <Dialog.Title className="text-xl font-bold">Proponer Apuesta</Dialog.Title>
 
                     <div className="">
@@ -176,7 +188,7 @@ function ProposeBetButton() {
                           <select
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
-                            className="w-full mt-1 p-2 border rounded-md"
+                            className="w-full mt-1 p-2 border rounded-md cursor-pointer"
                           >
                             <option value="social">Social</option>
                             <option value="política">Política</option>
@@ -186,26 +198,62 @@ function ProposeBetButton() {
 
                         <div>
                           <span className="text-sm font-medium">Opciones</span>
-                          {options.map((opt, idx) => (
-                            <input
-                              key={idx}
-                              type="text"
-                              value={opt}
-                              onChange={(e) => handleOptionChange(idx, e.target.value)}
-                              className={`w-full mt-1 mb-1 p-2 border rounded-md`}
-                              placeholder={`Opción ${idx + 1}`}
-                            />
-                          ))}
+                          <AnimatePresence>
+                            {options.map((opt, idx) => (
+                              <motion.div
+                                key={idx}
+                                layout
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 10 }}
+                                transition={{ duration: 0.25 }}
+                                className="relative mt-1 mb-1"
+                              >
+                                <input
+                                  type="text"
+                                  value={opt}
+                                  onChange={(e) => handleOptionChange(idx, e.target.value)}
+                                  className="w-full p-2 pr-8 border rounded-md"
+                                  placeholder={`Opción ${idx + 1}`}
+                                />
+                                {idx >= 2 && (
+                                  <button
+                                    type="button"
+                                    onClick={() => removeOptionField(idx)}
+                                    className="cursor-pointer absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 text-sm"
+                                    title="Eliminar opción"
+                                  >
+                                    ✕
+                                  </button>
+                                )}
+                              </motion.div>
+                            ))}
+                          </AnimatePresence>
+
                           <button
                             onClick={addOptionField}
                             type="button"
-                            className="text-sm text-blue-600 hover:underline mt-1"
+                            className="text-sm text-blue-600 hover:underline mt-1 cursor-pointer"
                           >
                             + Añadir opción
                           </button>
                         </div>
                       </div>
                     </div>
+                    
+                    <AnimatePresence>
+                      {showRequirementsWarning && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -5 }}
+                          transition={{ duration: 0.3 }}
+                          className="mt-3 text-sm text-red-600"
+                        >
+                          ⚠️ Para proponer una apuesta debes ingresar un título, seleccionar una categoría e ingresar al menos dos opciones válidas.
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
 
                     <div className="flex justify-end space-x-3 pt-4">
                       <button
@@ -216,7 +264,6 @@ function ProposeBetButton() {
                       </button>
                       <button
                         onClick={handlePropose}
-                        disabled={!isFormValid}
                         className={`px-4 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer ${
                           isFormValid
                             ? 'bg-blue-500 hover:bg-blue-600 text-white'

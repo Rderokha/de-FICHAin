@@ -15,4 +15,3 @@ export async function verifySIWE(message: string, signature: string): Promise<st
     return null;
   }
 }
-
