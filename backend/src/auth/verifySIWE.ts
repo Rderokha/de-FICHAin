@@ -5,7 +5,7 @@ export async function verifySIWE(message: string, signature: string): Promise<st
     const siwe = new SiweMessage(message);
     const result = await siwe.verify({
       signature,
-      domain: process.env.SIWE_DOMAIN || "localhost:3000",
+      domain: process.env.FRONTEND_URL,
     });
 
     console.log("🔍 SIWE Verification Result:", result);

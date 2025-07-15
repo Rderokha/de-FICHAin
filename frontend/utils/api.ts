@@ -6,14 +6,13 @@ export async function proposeBet(data: {
   category: string;
   options: string[];
 }) {
-  const res = await fetch("https://api.rudelab.cl/api/bets/propose", {
+  const res = await fetch(`${process.env.BACKEND_URL}/api/bets/propose`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
 
   if (!res.ok) throw new Error("Failed to propose bet");
-
   return res.json();
 }
 export async function createBet(betData: {
@@ -23,7 +22,7 @@ export async function createBet(betData: {
   description?: string;
   options: string[];
 }) {
-  const response = await fetch("https://api.rudelab.cl/api/bets/create", {
+  const response = await fetch(`${process.env.BACKEND_URL}/api/bets/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -39,7 +38,7 @@ export async function createBet(betData: {
   return response.json();
 }
 export async function fetchBets() {
-  const response = await fetch("https://api.rudelab.cl/api/bets/accepted");
+  const response = await fetch(`${process.env.BACKEND_URL}/api/bets/accepted`);
   if (!response.ok) throw new Error("Failed to fetch bets");
   return response.json();
 }

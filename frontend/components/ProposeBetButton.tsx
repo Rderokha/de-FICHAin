@@ -25,6 +25,14 @@ function ProposeBetButton() {
   const [options, setOptions] = useState(['', '']);
   const [isConnectWalletOpen, setIsConnectWalletOpen] = useState(false);
   const [showRequirementsWarning, setShowRequirementsWarning] = useState(false);
+  const [feedback, setFeedback] = useState<{
+    type: 'success' | 'error';
+    message: string;
+  } | null>(null);
+
+  const showFeedback = (type: 'success' | 'error', message: string) => {
+    setFeedback({ type, message });
+  };
 
   const openModal = () => {
     if (!address) {
@@ -95,14 +103,14 @@ function ProposeBetButton() {
         options: validOptions,
       });
 
-      alert('Propuesta ingresada! ID: ' + proposed.id);
+      showFeedback('success', `¡Propuesta ingresada! ID: ${proposed.id}`);
       closeModal();
       setTitle('');
       setDescription('');
       setCategory('social');
       setOptions(['', '']);
     } catch (err) {
-      alert('Error al proponer apuesta: ' + (err as Error).message);
+      showFeedback('error', `Error al proponer apuesta: ${(err as Error).message}`);
     }
   }, [address, signMessageAsync, isFormValid, title, description, category, validOptions]);
 
@@ -331,6 +339,48 @@ function ProposeBetButton() {
                 )}
               </Dialog.Panel>
 
+            </Transition.Child>
+          </div>
+        </Dialog>
+      </Transition>
+      <Transition show={!!feedback} as={Fragment}>
+        <Dialog onClose={() => setFeedback(null)} className="fixed inset-0 z-[999] overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen px-4">
+            <Transition.Child
+              as={Fragment}
+              enter="transition-opacity duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="transition-opacity duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 backdrop-blur-sm bg-black/30" />
+            </Transition.Child>
+
+            <Transition.Child
+              as={Fragment}
+              enter="transition-all duration-300 ease-out"
+              enterFrom="opacity-0 scale-95 translate-y-4"
+              enterTo="opacity-100 scale-100 translate-y-0"
+              leave="transition-all duration-200 ease-in"
+              leaveFrom="opacity-100 scale-100 translate-y-0"
+              leaveTo="opacity-0 scale-95 translate-y-4"
+            >
+              <Dialog.Panel className="bg-white rounded-xl shadow-xl max-w-sm w-full p-6 z-10 text-center">
+                <Dialog.Title className="text-xl font-semibold mb-2">
+                  {feedback?.type === 'success' ? '✅ Propuesta enviada' : '❌ Ocurrió un error'}
+                </Dialog.Title>
+                <p className="text-sm text-gray-700">{feedback?.message}</p>
+                <div className="mt-4">
+                  <button
+                    onClick={() => setFeedback(null)}
+                    className="px-4 py-2 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded-md"
+                  >
+                    Cerrar
+                  </button>
+                </div>
+              </Dialog.Panel>
             </Transition.Child>
           </div>
         </Dialog>
