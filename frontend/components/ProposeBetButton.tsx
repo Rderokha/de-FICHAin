@@ -81,13 +81,13 @@ function ProposeBetButton() {
       issuedAt: new Date().toISOString(),
     });
 
-    const message = siweMessage.prepareMessage();
+    const preparedMessage = siweMessage.prepareMessage();
 
     try {
-      const signature = await signMessageAsync({ message });
+      const signature = await signMessageAsync({message: preparedMessage});
 
       const proposed = await proposeBet({
-        message,
+        message: preparedMessage,
         signature,
         title,
         description,
