@@ -9,11 +9,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use((req, res, next) => {
-  console.log("🔎 Headers entrantes:", req.headers);
-  next();
-});
-
 app.use("/api/bets", betRoutes);
 
 const PORT = process.env.PORT || 4000;

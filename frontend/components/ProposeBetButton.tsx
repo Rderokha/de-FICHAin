@@ -129,6 +129,12 @@ function ProposeBetButton() {
       setShowTakeMeThere(true);
     }
   }, [address, isConnectWalletOpen]);
+
+  const feedbackTitles = {
+    success: '✅ Propuesta enviada',
+    error: '❌ Ocurrió un error',
+    default: ''
+  };
   return (
     <>
       <button
@@ -343,7 +349,7 @@ function ProposeBetButton() {
           </div>
         </Dialog>
       </Transition>
-      <Transition show={!!feedback} as={Fragment}>
+      <Transition show={!!feedback} as={Fragment}  afterLeave={() => setFeedback(null)}> 
         <Dialog onClose={() => setFeedback(null)} className="fixed inset-0 z-[999] overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen px-4">
             <Transition.Child
@@ -369,13 +375,13 @@ function ProposeBetButton() {
             >
               <Dialog.Panel className="bg-white rounded-xl shadow-xl max-w-sm w-full p-6 z-10 text-center">
                 <Dialog.Title className="text-xl font-semibold mb-2">
-                  {feedback?.type === 'success' ? '✅ Propuesta enviada' : '❌ Ocurrió un error'}
+                  {feedback ? feedbackTitles[feedback.type] : feedbackTitles.default}
                 </Dialog.Title>
                 <p className="text-sm text-gray-700">{feedback?.message}</p>
                 <div className="mt-4">
                   <button
                     onClick={() => setFeedback(null)}
-                    className="px-4 py-2 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded-md"
+                    className="px-4 py-2 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded-md cursor-pointer"
                   >
                     Cerrar
                   </button>

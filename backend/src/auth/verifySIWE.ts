@@ -7,9 +7,6 @@ export async function verifySIWE(message: string, signature: string): Promise<st
       signature,
       domain: process.env.FRONTEND_URL,
     });
-
-    console.log("🔍 SIWE Verification Result:", result);
-
     return result.success ? siwe.address : null;
   } catch (e) {
     console.error("❌ SIWE verification error:", e);
