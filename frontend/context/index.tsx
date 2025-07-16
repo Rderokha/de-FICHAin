@@ -18,7 +18,7 @@ if (!projectId) {
 const metadata = {
   name: 'de-fichain',
   description: 'de-fichain frontend',
-  url: `${process.env.FRONTEND_URL}`,
+  url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}`,
   icons: ['https://avatars.githubusercontent.com/u/179229932']
 }
 

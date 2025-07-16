@@ -6,7 +6,7 @@ export async function proposeBet(data: {
   category: string;
   options: string[];
 }) {
-  const res = await fetch(`${process.env.BACKEND_URL}/api/bets/propose`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/bets/propose`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -22,7 +22,7 @@ export async function createBet(betData: {
   description?: string;
   options: string[];
 }) {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/bets/create`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/bets/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -38,7 +38,7 @@ export async function createBet(betData: {
   return response.json();
 }
 export async function fetchBets() {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/bets/accepted`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/bets/accepted`);
   if (!response.ok) throw new Error("Failed to fetch bets");
   return response.json();
 }
